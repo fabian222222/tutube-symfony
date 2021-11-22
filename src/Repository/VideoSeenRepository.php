@@ -19,32 +19,15 @@ class VideoSeenRepository extends ServiceEntityRepository
         parent::__construct($registry, VideoSeen::class);
     }
 
-    // /**
-    //  * @return VideoSeen[] Returns an array of VideoSeen objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function viewCounter($video_id)
     {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('v.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('video_seen')
+            ->select('count(video_seen.id)')
+            ->where('video_seen.video = :video_id')
+            ->setParameter('video_id', $video_id)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?VideoSeen
-    {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

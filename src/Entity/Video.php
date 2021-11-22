@@ -55,11 +55,17 @@ class Video
      */
     private $likedVideos;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->videoSeens = new ArrayCollection();
         $this->likedVideos = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable('now');
     }
 
     public function getId(): ?int
@@ -203,5 +209,22 @@ class Video
         }
 
         return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getVideoSeens();
     }
 }

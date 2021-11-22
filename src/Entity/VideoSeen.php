@@ -34,6 +34,10 @@ class VideoSeen
      */
     private $updatedAt;
 
+    public function __construct(){
+        $this->updatedAt = new \DateTimeImmutable('now');
+    }
+
     public function getId(): ?int
     {
         return $this->id;

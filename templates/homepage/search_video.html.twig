@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+</head>
+<body>
+    <h1>Search</h1>
+    <form action="{{path("homepage_search")}}" method="POST">
+        <input type="text" name="search" placeholder="search video">
+        <input type="submit" value="search video">
+    </form>
+    {% for video in videos %}
+        <p>{{video.title}}</p>
+        <p>{{video.videoSeens.count}} vues</p>
+        <p>{{video.createdAt | date('d-m-Y') }}</p>
+        <p>{{video.user.firstname}}, {{video.user.lastname}}</p>
+        <a href="{{path("video_page", {video_id: video.id})}}">go to video</a><br>
+        <iframe src={{video.videoUrl}} frameborder="0"></iframe>
+    {% endfor %}
+</body>
+</html>
