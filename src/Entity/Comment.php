@@ -49,6 +49,12 @@ class Comment
      */
     private $dislike_counter;
 
+    public function __construct(){
+        $this->createdAt = new \DateTimeImmutable('now');
+        $this->like_counter = 0;
+        $this->dislike_counter = 0;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -124,5 +130,9 @@ class Comment
         $this->dislike_counter = $dislike_counter;
 
         return $this;
+    }
+
+    public function __toString(){
+        return $this->content;
     }
 }

@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Form\VideoFormType;
+use App\Form\CommentFormType;
 use App\Entity\Video;
 use App\Entity\User;
+use App\Entity\Comment;
 use App\Entity\VideoSeen;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,12 +27,35 @@ class VideoController extends AbstractController
 
         $viewsRepo = $this->getDoctrine()->getRepository(VideoSeen::class);
         $views = $viewsRepo->viewCounter($video_id)[0][1];
+        $comment = new Comment();
+        $commentForm = $this->createForm(CommentFormType::class, $comment);
+        $commentForm->handleRequest($request);
 
-        return $this->render("video/video.html.twig", [
+        $commentRepo = $this->getDoctrine()->getRepository(Comment::class);
+        $comments = $commentRepo->findByVideo($video_id);
+        
+        if($commentForm->isSubmitted() && $commentForm->isValid()){
+
+            $userRepo = $this->getDoctrine()->getRepository(User::class);
+            $user = $userRepo->find($user_id);
+
+            $comment->setUser($user);
+            $comment->setVideo($video);
+
+            $commentData = $commentForm->getData();
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($commentData);
+            $em->flush();
+        }
+        
+        return $this->renderForm("video/video.html.twig", [
             "video" => $video,
             "video_url" => $video_url,
             "views" => $views,
-            "userId" => $user_id
+            "userId" => $user_id,
+            "comments" => $comments,
+            "commentForm" => $commentForm
         ]);
     }
 

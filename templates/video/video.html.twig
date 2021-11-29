@@ -13,5 +13,9 @@
     <p>{{views}} vus</p>
     <a href="{{path("see_vieo", {user_id: userId, video_id: video.id})}}">J'ai vu la vidéo</a>
     <iframe src={{video_url}} frameborder="0">fqsd</iframe>
+    {{form(commentForm)}}
+    {% for comment in comments %}
+        <p>{{comment}}</p>
+    {% endfor %}
 </body>
 </html>

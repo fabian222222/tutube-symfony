@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class CommentFormType extends AbstractType
 {
@@ -13,11 +14,9 @@ class CommentFormType extends AbstractType
     {
         $builder
             ->add('content')
-            ->add('createdAt')
-            ->add('like_counter')
-            ->add('dislike_counter')
-            ->add('video')
-            ->add('user')
+            ->add('create', SubmitType::class, [
+                "label" => "comment"
+            ])
         ;
     }
 
