@@ -49,4 +49,13 @@ class VideoRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function trend($start, $end){
+        return $this->createQueryBuilder('video')
+            ->where('video.createdAt BETWEEN :monday AND :sunday')
+            ->setParameter('monday', $start)
+            ->setParameter('sunday', $end)
+            ->getQuery()
+            ->getResult();
+    }
 }

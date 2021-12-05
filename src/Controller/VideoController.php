@@ -122,19 +122,42 @@ class VideoController extends AbstractController
 
     #[Route('/video/trend', name: "video_trend")]
     public function video_trend(
-
+        VideoRepository $video_repo
     ):Response
     {
         $today = date("Y-m-d");  
-        $today2 = $today;  
-        $day = date('l', strtotime($today2));
+        $monday_search = $today;  
+        $day = date('l', strtotime($monday_search));
         $last_monday = "";
+
         while ($day != "Monday") {
-            $today2 = date("Y-m-d", strtotime($today2 . "-1 day"));
-            $day = date('l', strtotime($today2));
+            $monday_search = date("Y-m-d", strtotime($monday_search . "-1 day"));
+            $day = date('l', strtotime($monday_search));
         }   
-        $last_monday = $today2;
-        dd($last_monday);
+
+        $last_monday = $monday_search;
+
+        $video_week = $video_repo->trend($last_monday, $today);
+        $video_view = array_map(fn($value) => [$value, count($value->getVideoSeens())] , $video_week);
+        $most_view = [];
+
+        while (count($most_view) <= count($video_view) && count($most_view) < 9) {
+            $max_value = 0;
+            $max_index = 0;
+            foreach ($video_view as $key => $video) {
+                if ($video[1] > $max_value){
+                    $max_value = $video[1];
+                    $max_index = $key;
+                }
+            }
+            array_push($most_view, $video_view[$max_index][0]);
+            unset($video_view[$max_index]);
+            $video_view = array_values($video_view);
+        }
+        
+        return $this->render('/video/trend.html.twig', [
+            "trends" => $most_view
+        ]);
     }
 
     #[Route('/video/{video_id}', name: 'video_page')]

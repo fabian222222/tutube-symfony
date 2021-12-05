@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} trend page {% endblock %}
+
+{% block body %}
+    <h1>Trend</h1>
+    {% for trend in trends %}
+        <p>{{trend.title}}</p>
+        <p>{{trend.videoSeens|length}}</p>
+    {% endfor %}
+{% endblock %}
