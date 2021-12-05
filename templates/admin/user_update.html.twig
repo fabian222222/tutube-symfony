@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello AdminController!{% endblock %}
-
+{% block stylesheets %}
+      <link rel="stylesheet" href="{{ asset('assets/styles/user_update.css')}}">
+{% endblock %}
 {% block body %}
-    {{form(form)}}
+    <div class="user_update_container">
+        {{form(form)}}
+    </div>
 {% endblock %}
