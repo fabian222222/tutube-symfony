@@ -38,4 +38,15 @@ class VideoRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function searchFollowingVideos($tutubeurs)
+    {
+        return $this->createQueryBuilder("video")
+            ->where("video.user IN (:tutubeur)")
+            ->setParameter('tutubeur', $tutubeurs)
+            ->orderBy("video.createdAt", 'DESC')
+            ->setMaxResults('20')
+            ->getQuery()
+            ->getResult();
+    }
 }

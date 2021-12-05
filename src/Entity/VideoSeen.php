@@ -19,13 +19,13 @@ class VideoSeen
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="videoSeens")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Video::class, inversedBy="videoSeens")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $video;
 

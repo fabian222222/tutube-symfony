@@ -41,12 +41,12 @@ class Video
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="video")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="video", orphanRemoval=true)
      */
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity=VideoSeen::class, mappedBy="video")
+     * @ORM\OneToMany(targetEntity=VideoSeen::class, mappedBy="video", orphanRemoval=true)
      */
     private $videoSeens;
 
@@ -221,6 +221,10 @@ class Video
         $this->description = $description;
 
         return $this;
+    }
+
+    public function __toString() {
+        return $this->title;
     }
 
 }

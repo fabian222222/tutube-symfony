@@ -13,7 +13,11 @@
     <p>{{views}} vus</p>
     <a href="{{path("see_vieo", {user_id: userId, video_id: video.id})}}">J'ai vu la vidéo</a>
     <iframe src={{video_url}} frameborder="0">fqsd</iframe>
-    {{form(commentForm)}}
+    {% if app.user %}
+        {{form(commentForm)}}
+    {% else %}
+        <p>You must be connected to enter comment en fait</p>
+    {% endif %}
     {% for comment in comments %}
         <p>{{comment}}</p>
     {% endfor %}

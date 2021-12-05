@@ -55,11 +55,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $profile_image;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class)
-     */
-    private $follower;
-
-    /**
      * @ORM\OneToMany(targetEntity=Video::class, mappedBy="user", orphanRemoval=true)
      */
     private $videos;
@@ -79,6 +74,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $likedVideos;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="following")
+     */
+    private $follower;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="follower")
+     */
+    private $following;
+
     public function __construct()
     {
         $this->follower = new ArrayCollection();
@@ -86,6 +91,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->comments = new ArrayCollection();
         $this->videoSeens = new ArrayCollection();
         $this->likedVideos = new ArrayCollection();
+        $this->following = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -214,30 +220,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection|self[]
-     */
-    public function getFollower(): Collection
-    {
-        return $this->follower;
-    }
-
-    public function addFollower(self $follower): self
-    {
-        if (!$this->follower->contains($follower)) {
-            $this->follower[] = $follower;
-        }
-
-        return $this;
-    }
-
-    public function removeFollower(self $follower): self
-    {
-        $this->follower->removeElement($follower);
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Video[]
      */
     public function getVideos(): Collection
@@ -352,6 +334,62 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($likedVideo->getUser() === $this) {
                 $likedVideo->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getFollower(): Collection
+    {
+        return $this->follower;
+    }
+
+    public function addFollower(self $follower): self
+    {
+        if (!$this->follower->contains($follower)) {
+            $this->follower[] = $follower;
+        }
+
+        return $this;
+    }
+
+    public function removeFollower(self $follower): self
+    {
+        $this->follower->removeElement($follower);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getFollowing(): Collection
+    {
+        return $this->following;
+    }
+
+    public function addFollowing(self $following): self
+    {
+        if (!$this->following->contains($following)) {
+            $this->following[] = $following;
+            $following->addFollower($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollowing(self $following): self
+    {
+        if ($this->following->removeElement($following)) {
+            $following->removeFollower($this);
         }
 
         return $this;

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+    {% for video in videos %}
+        <p>{{video.title}}</p>
+        <a href="{{path("admin_video_page", {video_id: video.id})}}">Aller la page update video</a><br>
+        <a href="{{path("admin_delete_video", {video_id: video.id})}}">delete this video</a><br>
+    {% endfor %}
+
+    {% for user in users %}
+        <a href="{{path("admin_update_user", {user_id:user.id})}}">Go to edit page for this user</a><br>
+        <p>{{user.firstname}}</p>
+        <p>{{user.lastname}}</p>
+        <p>{{user.id}}</p>
+        <a href="{{path("admin_delete_user", {user_id : user.id})}}">delete this user and all the videos</a><br>
+        {% for video in user.videos %}
+            <p>{{video.getTitle()}}</p>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}

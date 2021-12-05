@@ -11,12 +11,6 @@ class HomepageController extends AbstractController
 {
     #[Route('/homepage', name: 'homepage')]
     public function homepage() {
-        $user = $this->getUser();
-
-        if(!$user){
-            return $this->redirectToRoute('login');
-        }
-
         $repo = $this->getDoctrine()->getRepository(Video::class);
         $lastTwentyVideos = $repo->LastTwentyVideo();
 
