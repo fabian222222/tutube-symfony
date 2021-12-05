@@ -120,6 +120,23 @@ class VideoController extends AbstractController
         ]);
     }
 
+    #[Route('/video/trend', name: "video_trend")]
+    public function video_trend(
+
+    ):Response
+    {
+        $today = date("Y-m-d");  
+        $today2 = $today;  
+        $day = date('l', strtotime($today2));
+        $last_monday = "";
+        while ($day != "Monday") {
+            $today2 = date("Y-m-d", strtotime($today2 . "-1 day"));
+            $day = date('l', strtotime($today2));
+        }   
+        $last_monday = $today2;
+        dd($last_monday);
+    }
+
     #[Route('/video/{video_id}', name: 'video_page')]
     public function video_page(Request $request, int $video_id): Response
     {
@@ -172,4 +189,5 @@ class VideoController extends AbstractController
             "commentForm" => $commentForm,
         ]);
     }
+
 }
