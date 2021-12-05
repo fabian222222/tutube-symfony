@@ -1,25 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>video page</title>
-</head>
-<body>
-    <h1>video page</h1>
-    <p>{{video.title}}</p>
-    <p>{{video.description}}</p>
-    <p>{{views}} vus</p>
-    <a href="{{path("see_vieo", {user_id: userId, video_id: video.id})}}">J'ai vu la vidéo</a>
-    <iframe src={{video_url}} allowfullscreen frameborder="0">fqsd</iframe>
-    {% if app.user %}
-        {{form(commentForm)}}
-    {% else %}
-        <p>You must be connected to enter comment en fait</p>
-    {% endif %}
-    {% for comment in comments %}
-        <p>{{comment}}</p>
-    {% endfor %}
-</body>
-</html>
+{% extends 'base.html.twig' %}
+{% block title %} disover page {% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/styles/video.css')}}">
+{% endblock %}
+{% block body %}
+    <div class="video_page_container">
+        <iframe src={{video_url}} allowπfullscreen frameborder="0">fqsd</iframe>
+        <div class="video_view">
+            <p class="video_title">{{video.title}}</p>
+            <a href="{{path("see_vieo", {user_id: userId, video_id: video.id})}}">J'ai vu la vidéo</a>
+        </div>
+        <div class="video_informations">
+            <p>{{video.createdAt|date('d-m-Y')}} - {{views}}vues</p>
+        </div>
+        <div class="comment_section">
+            <h2>Comments section</h2>
+            <div class="comment_action">
+                {% if app.user %}
+                    {{form(commentForm)}}
+                {% else %}
+                    <p>You must be connected to enter comment en fait</p>
+                {% endif %}
+            </div>
+            {% for comment in comments %}
+                <div class="comment">
+                    <div class="user_info">
+                        <div class="user_pp">
+                            <img src="{{asset("assets/images/"~comment.user.profileImage)}}" alt="">
+                        </div>
+                        <div class="user_info_text">
+                            <a href="{{path('tutubeur_page', {tutubeur_id:comment.user.id})}}">{{comment.user.firstname}} {{comment.user.lastname}}</a>
+                        </div>
+                    </div>
+                    <div class="comment_info">
+                        <p>{{comment}}</p>
+                        <p class="date">{{comment.createdAt|date('d-m-Y H:i:s')}}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

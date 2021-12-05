@@ -1,24 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>home</h1>
-    <form action="{{path("homepage_search")}}" method="POST">
-        <input type="text" name="search" placeholder="search video">
-        <input type="submit" value="search video">
-    </form>
-    {% for video in videos %}
-        <p>{{video.title}}</p>
-        <p>{{video.videoSeens.count}} vues</p>
-        <p>{{video.createdAt | date('d-m-Y') }}</p>
-        <p>{{video.user.firstname}}, {{video.user.lastname}}</p>
-        <a href="{{path("video_page", {video_id: video.id})}}">go to video</a><br>
-        <iframe src={{video.videoUrl}} frameborder="0"></iframe>
-    {% endfor %}
-</body>
-</html>
+{% extends 'base.html.twig'%}
+{% block stylesheets %}
+      <link rel="stylesheet" href="{{ asset('assets/styles/homepage.css')}}">
+{% endblock %}
+{% block body %}
+    <header>
+        <div class="container_homepage">
+            <div class="logo">   
+                <h1>home</h1>   
+            </div>
+            <div class="search_bar">
+                <form action="{{path("homepage_search")}}" method="POST">
+                    <input type="text" name="search" placeholder="search video">
+                    <input type="submit" value="search video">
+                </form>
+            </div>
+        </div>
+    </header>
+    <div class="video_container">
+        {% for video in videos %}
+            <div class="video">
+                <iframe src={{video.videoUrl}} frameborder="0"></iframe>
+                <div class="video_title">
+                    <a href="{{path("video_page", {video_id: video.id})}}">{{video.title}}</a><br>
+                </div>
+                <div class="video_info">
+                    <a href="{{path('tutubeur_page', {tutubeur_id:video.user.id})}}">{{video.user.firstname}} {{video.user.lastname}}</a>
+                    <div class="video_stat"> 
+                        <p>{{video.videoSeens.count}} vues</p>
+                        <p>{{video.createdAt | date('d-m-Y') }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -14,13 +14,18 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
+            ->add('email', null, [
+                "attr" => [
+                    "class" => "email"
+                ]
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -30,6 +35,9 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('password', RepeatedType::class, [
+                "attr" => [
+                    "class" => "password"
+                ],
                 'type' => PasswordType::class,
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
@@ -47,8 +55,16 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('firstname')
-            ->add('lastname')
+            ->add('firstname', null, [
+                "attr" => [
+                    "class"=>"firstname"
+                ]
+            ])
+            ->add('lastname', null, [
+                "attr" => [
+                    "class"=>"lastname"
+                ]
+            ])
             ->add('profil_image', FileType::class, [
                 'label' => 'photo de profil',
                 "mapped" => false,

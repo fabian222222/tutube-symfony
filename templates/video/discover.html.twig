@@ -1,9 +1,16 @@
 {% extends 'base.html.twig' %}
-
 {% block title %} disover page {% endblock %}
-
+{% block stylesheets %}
+      <link rel="stylesheet" href="{{ asset('assets/styles/discover.css')}}">
+{% endblock %}
 {% block body %}
-    <h1>discover</h1>
-    <iframe src={{video.videoUrl}} allowfullscreen frameborder="0"></iframe>
-    <p>{{video.title}}</p>
+    <div class="container_discover">
+        <div class="video">
+            <h1>Discover this video</h1>
+            <iframe src={{video.videoUrl}} allowfullscreen frameborder="0"></iframe>
+            <a href="{{path('video_page', {video_id: video.id})}}" class="video_title">{{video.title}}</a>
+            <div class="video_information">
+            </div>
+        </div>
+    </div>
 {% endblock %}

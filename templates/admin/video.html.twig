@@ -1,14 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Video page!{% endblock %}
+{% block stylesheets %}
+      <link rel="stylesheet" href="{{ asset('assets/styles/admin_video.css')}}">
+{% endblock %}
 
 {% block body %}
-    <p>{{video.title}}</p>
-    <iframe src={{video.videoUrl}} frameborder="0"></iframe>
-    <p>{{video.createdAt|date("d-m-Y")}}</p>
-    <p>{{video.user.firstname}} {{video.user.lastname}}</p>
-    {% for comment in video.comments %}
-        <p>{{comment.content}}</p>
-        <a href="{{path("admin_comment_delete", {comment_id : comment.id, video_id : video.id})}}">Supprimer ce commentaire</a>
-    {% endfor %}
+    <div class="admin_video_container">
+        <iframe src={{video.videoUrl}} allowfullscreen frameborder="0"></iframe>
+        <div class="video_view">
+            <p class="video_title">{{video.title}}</p>
+        </div>
+        <div class="video_informations">
+            <p>{{video.createdAt|date('d-m-Y')}}</p>
+        </div>
+        {% for comment in video.comments %}
+            <p>{{comment.content}}</p>
+            <a class="delete_comment" href="{{path("admin_comment_delete", {comment_id : comment.id, video_id : video.id})}}">Supprimer ce commentaire</a>
+        {% endfor %}
+    </div>
 {% endblock %}

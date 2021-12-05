@@ -1,22 +1,37 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello AdminController!{% endblock %}
-
+{% block stylesheets %}
+      <link rel="stylesheet" href="{{ asset('assets/styles/admin_videos.css')}}">
+{% endblock %}
 {% block body %}
-    {% for video in videos %}
-        <p>{{video.title}}</p>
-        <a href="{{path("admin_video_page", {video_id: video.id})}}">Aller la page update video</a><br>
-        <a href="{{path("admin_delete_video", {video_id: video.id})}}">delete this video</a><br>
-    {% endfor %}
-
-    {% for user in users %}
-        <a href="{{path("admin_update_user", {user_id:user.id})}}">Go to edit page for this user</a><br>
-        <p>{{user.firstname}}</p>
-        <p>{{user.lastname}}</p>
-        <p>{{user.id}}</p>
-        <a href="{{path("admin_delete_user", {user_id : user.id})}}">delete this user and all the videos</a><br>
-        {% for video in user.videos %}
-            <p>{{video.getTitle()}}</p>
-        {% endfor %}
-    {% endfor %}
+    <div class="admin_container">
+        <div class="video_list">
+            <h1>Video list : </h1>
+            {% for video in videos %}
+                <div class="video">
+                    <p>{{video.title}}</p>
+                    <a href="{{path("admin_video_page", {video_id: video.id})}}">Aller la page update video</a><br>
+                    <a href="{{path("admin_delete_video", {video_id: video.id})}}">delete this video</a><br>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="user_list">
+            <h1>User list : </h1>
+            {% for user in users %}
+                {% if user.id != app.user.id %}
+                    <div class="user">
+                        <p>{{user.firstname}}</p>
+                        <p>{{user.lastname}}</p>
+                        <p>{{user.id}}</p>
+                        <a href="{{path("admin_update_user", {user_id:user.id})}}">Go to edit page for this user</a><br>
+                        <a href="{{path("admin_delete_user", {user_id : user.id})}}">delete this user and all the videos</a><br>
+                        {% for video in user.videos %}
+                            <p>{{video.getTitle()}}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

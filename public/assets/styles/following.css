@@ -1,0 +1,34 @@
+.following_container {
+    background: rgb(26, 26, 26);
+    width:100%;
+    min-height: 100vh;
+    font-family: "montserrat";
+}
+.following_container > .videos {
+    padding: 0 30px;
+    padding-top: 80px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 50px;
+}
+.following_container > h1 {
+    color: white;
+    font-size: 40px;
+    font-family: "montserrat";
+    padding: 0 25px;
+    padding-top: 25px;
+}
+.following_container .videos .video a {
+    margin-top: 20px;
+}
+.following_container .video p, .following_container .video a{
+    color: white;
+    text-decoration: none;
+}
+.following_container .video .video_user{
+    display: flex;
+    padding: 10px 0;
+}
+.following_container .video .video_user p{
+    margin-right: 5px;
+}

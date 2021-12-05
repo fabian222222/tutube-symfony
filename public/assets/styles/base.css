@@ -1,0 +1,58 @@
+html, * , body {
+    box-sizing: border-box;
+}
+.base_navigation{
+    display: flex;
+    flex-direction: row;
+    min-width: 100vw;
+    min-height: 100vh;
+}
+.base_navigation > .container {
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    background: rgb(61, 61, 61);
+}
+.base_navigation .container .logo {
+    padding: 50px 0;
+    height: 50px;
+    width: 100%;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.base_navigation .container ul {
+    height: calc(100% - 50px);
+    padding: 0 30px;
+    width: 100%;
+}
+.base_navigation .container ul li{
+    padding: 15px 0;
+}
+.base_navigation .container ul li a{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    font-family: "montserrat";
+    font-weight: 600;
+}
+.base_navigation > .page_container{
+    width: calc(100% - 250px);;
+}
+.base_navigation .container ul .profil_tutubeur{
+    display: flex;
+    align-items: center;
+}
+.base_navigation .container ul .profil_tutubeur .profil_pic{
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    border-radius: 50px;
+    margin-right: 5px;
+}
+.base_navigation .container ul .profil_tutubeur .profil_pic img{
+    width: 100%;
+    height: 100%;
+    object-fit: center;
+}

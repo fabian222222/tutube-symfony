@@ -1,11 +1,25 @@
 {% extends 'base.html.twig' %}
 
 {% block title %} trend page {% endblock %}
+{% block stylesheets %} 
+    <link rel="stylesheet" href="{{ asset('assets/styles/trend.css')}}">
+ {% endblock %}
 
 {% block body %}
-    <h1>Trend</h1>
-    {% for trend in trends %}
-        <p>{{trend.title}}</p>
-        <p>{{trend.videoSeens|length}}</p>
-    {% endfor %}
+    <div class="container_trend">
+        <h1>Trend</h1>
+        <div class="videos">
+            {% for trend in trends %}
+                <div class="video">
+                    <iframe src={{trend.videoUrl}} frameborder="0"></iframe>
+                    <a class="video_title" href="{{path('video_page', {video_id:trend.id})}}">{{trend.title}}</a>
+                    <div class="video_user">
+                        <p>{{trend.user.firstname}}</p>
+                        <p>{{trend.user.lastname}}</p>
+                    </div>
+                    <p>{{trend.videoSeens|length}} vues</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

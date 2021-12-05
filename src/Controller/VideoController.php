@@ -141,22 +141,22 @@ class VideoController extends AbstractController
         $video_week = $video_repo->trend($last_monday, $today);
         $video_view = array_map(fn($value) => [$value, count($value->getVideoSeens())] , $video_week);
         $most_view = [];
-
-        while (count($most_view) <= count($video_view) && count($most_view) < 9) {
-            $max_value = 0;
-            $max_index = 0;
-            foreach ($video_view as $key => $video) {
-                if ($video[1] > $max_value){
-                    $max_value = $video[1];
-                    $max_index = $key;
+        if (count($video_view) > 0){
+            while (count($most_view) <= count($video_view) && count($most_view) < 9) {
+                $max_value = 0;
+                $max_index = 0;
+                foreach ($video_view as $key => $video) {
+                    if ($video[1] > $max_value){
+                        $max_value = $video[1];
+                        $max_index = $key;
+                    }
                 }
+                array_push($most_view, $video_view[$max_index][0]);
+                unset($video_view[$max_index]);
+                $video_view = array_values($video_view);
             }
-            array_push($most_view, $video_view[$max_index][0]);
-            unset($video_view[$max_index]);
-            $video_view = array_values($video_view);
         }
-
-        return $this->render('/video/trend.html.twig', [
+            return $this->render('/video/trend.html.twig', [
             "trends" => $most_view
         ]);
     }
@@ -174,7 +174,7 @@ class VideoController extends AbstractController
                 $users[$key][1] = [0];
             } 
         }
-        $users = array_filter($users, fn($value) => $value[1][0] < 10);
+        $users = array_filter($users, fn($value) => $value[1][0] < 100);
         $users_with_less_100view = [];
         foreach ($users as $key => $user) {
             array_push($users_with_less_100view, $user[0]);

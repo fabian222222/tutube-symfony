@@ -1,0 +1,71 @@
+.container_profile {
+    background: rgb(26, 26, 26);
+    width:100%;
+    min-height: 100vh;
+    font-family: "montserrat";
+}
+.container_profile > .videos {
+    padding: 0 30px;
+    padding-top: 80px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 50px;
+}
+.container_profile > h1 {
+    color: white;
+    font-size: 40px;
+    font-family: "montserrat";
+    padding: 0 25px;
+    padding-top: 25px;
+}
+.container_profile .videos .video a {
+    margin-top: 20px;
+}
+.container_profile .video p, .container_profile .video a{
+    color: white;
+    text-decoration: none;
+}
+.container_profile .video .video_user{
+    display: flex;
+    padding: 10px 0;
+}
+.container_profile .video .video_user p{
+    margin-right: 5px;
+}
+.container_profile .video .action{
+    display: flex;
+    justify-content: space-between;
+}
+.container_profile .video .action a{
+    padding: 5px;
+    border-radius: 5px;
+    background: #348ddb;
+}
+.container_profile > .tutubeur_stat{
+    color: white;
+    padding: 0 30px;
+}
+.container_profile .action_follow {
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    background: rgb(201, 50, 50);
+    padding: 8px;
+    margin: 25px;
+}
+.container_profile .tutubeur_stat p:last-of-type{
+    margin-bottom: 25px;
+}
+.container_profile .tutubeur_stat .create_video {
+    text-decoration: none;
+    color: white;
+    padding: 5px;
+    border-radius: 8px;
+    background: cornflowerblue;
+}
+.container_profile h1 {
+    margin-bottom: 25px;
+}
+.container_profile .tutubeur_stat {
+    margin-top: 25px;
+}

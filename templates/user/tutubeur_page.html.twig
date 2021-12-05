@@ -1,29 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutubeur</title>
-</head>
-<body>
-    <h1>Tutubeur</h1>
-    {% if viewer == true and is_fan == false and app.user.id != tutubeur_id %}   
-        <a href="{{path('tutubeur_follow', {action:'follow', source_id: app.user.id, target_id: tutubeur_id})}}">s'abonner</a>
-    {% elseif viewer == true and is_fan == true and app.user.id != tutubeur_id %}
-        <a href="{{path('tutubeur_follow', {action:'unfollow', source_id:app.user.id, target_id: tutubeur_id})}}">se désabonner</a>
-    {% endif %}
-    <p>number of video : {{videoCounter}}</p>
-    <p>number of view : {{viewCounter}}</p>
-    {% for userVideo in userVideos %}
-        <p>{{userVideo.title}}</p>
-        <p>{{userVideo.description}}</p>
-        <p>{{userVideo.getVideoSeens|length}}</p>
-        <a href="{{path("see_vieo", {user_id: userId, video_id: userVideo.id})}}">J'ai vu la vidéo</a>
-        <iframe src={{userVideo.videoUrl}} frameborder="0">fqsd</iframe>
-        {% if userId == userVideo.user.id %}
-            <a href="{{path("tutubeur_video_delete", {video_id : userVideo.id})}}">delete this video</a>
+{% extends 'base.html.twig'%}
+{% block stylesheets %}
+      <link rel="stylesheet" href="{{ asset('assets/styles/profile_page.css')}}">
+{% endblock %}
+{% block body %}
+    <div class="container_profile">
+        <h1>Tutubeur</h1>
+        {% if viewer == true and is_fan == false and app.user.id != tutubeur_id %}   
+            <a class="action_follow" href="{{path('tutubeur_follow', {action:'follow', source_id: app.user.id, target_id: tutubeur_id})}}">s'abonner</a>
+        {% elseif viewer == true and is_fan == true and app.user.id != tutubeur_id %}
+            <a class="action_follow" href="{{path('tutubeur_follow', {action:'unfollow', source_id:app.user.id, target_id: tutubeur_id})}}">se désabonner</a>
         {% endif %}
-    {% endfor %}
-</body>
-</html>
+        <div class="tutubeur_stat">
+            <p>number of video : {{videoCounter}}</p>
+            <p>number of view : {{viewCounter}}</p>
+            {% if app.user.id == tutubeur_id %}
+                <a class="create_video" href="{{path('create_video')}}">create video</a>
+            {% endif %}
+        </div>
+            <div class="videos">
+                {% for userVideo in userVideos %}
+                    <div class="video">
+                        <iframe src={{userVideo.videoUrl}} frameborder="0"></iframe>
+                        <a class="video_title" href="{{path('video_page', {video_id:userVideo.id})}}">{{userVideo.title}}</a>
+                        <div class="video_user">
+                            <p>{{userVideo.user.firstname}}</p>
+                            <p>{{userVideo.user.lastname}}</p>
+                        </div>
+                        <p>{{userVideo.videoSeens|length}} vues</p>
+                        <div class="action">
+                            <a href="{{path("see_vieo", {user_id: userId, video_id: userVideo.id})}}">J'ai vu la vidéo</a>
+                            <a href="{{path("tutubeur_video_delete", {video_id : userVideo.id})}}">delete this video</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
