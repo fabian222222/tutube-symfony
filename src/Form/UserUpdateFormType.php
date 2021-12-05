@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class UserUpdateFormType extends AbstractType
 {
@@ -25,11 +27,13 @@ class UserUpdateFormType extends AbstractType
             ->add('lastname', null, [
                 "required" => false
             ])
-            ->add('profile_image', null, [
-                "required" => false
+            ->add('profil_image', FileType::class, [
+                'label' => 'photo de profil',
+                "mapped" => false,
+                'required' => false,
             ])
-            ->add('save', SubmitType::class, [
-                "label" => "change user info"
+            ->add('create', SubmitType::class, [
+                "label" => "update"
             ])
         ;
     }

@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Entity\Comment;
 use App\Entity\VideoSeen;
 use App\Repository\VideoRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -154,9 +155,34 @@ class VideoController extends AbstractController
             unset($video_view[$max_index]);
             $video_view = array_values($video_view);
         }
-        
+
         return $this->render('/video/trend.html.twig', [
             "trends" => $most_view
+        ]);
+    }
+
+    #[Route('/video/discover', name:"discover_page")]
+    public function discover_page(
+        UserRepository $user_repo,
+        VideoRepository $video_repo
+    ):Response
+    {
+        $users = $user_repo->findAll();
+        $users = array_map(fn($value) => [$value, array_map(fn($value2) => count($value2->getVideoSeens()->getValues()) > 0 ? count($value2->getVideoSeens()->getValues()) : 0, $value->getVideos()->getValues())], $users);
+        foreach ($users as $key => $user) {
+            if (count($user[1]) == 0){
+                $users[$key][1] = [0];
+            } 
+        }
+        $users = array_filter($users, fn($value) => $value[1][0] < 10);
+        $users_with_less_100view = [];
+        foreach ($users as $key => $user) {
+            array_push($users_with_less_100view, $user[0]);
+        }
+        $videos = $video_repo->discover($users_with_less_100view);
+        $video = array_rand($videos, 1);
+        return $this->render('/video/discover.html.twig', [
+            "video" => $videos[$video]
         ]);
     }
 

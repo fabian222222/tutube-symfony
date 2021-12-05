@@ -11,6 +11,8 @@ use App\Repository\CommentRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\UserUpdateFormType;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 
 class AdminController extends AbstractController
 {
@@ -77,7 +79,8 @@ class AdminController extends AbstractController
         int $user_id,
         UserRepository $user_repo,
         EntityManagerInterface $em,
-        Request $request
+        Request $request,
+        SluggerInterface $slugger
     ):Response
     {   
         $user_to_update = $user_repo->find($user_id);
@@ -86,7 +89,22 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $file = $form->get('profil_image')->getData();
             $user = $form->getData();
+            if($file){
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+                try {
+                    $file->move(
+                        $this->getParameter('profil_image'),
+                        $newFilename
+                    );
+                }catch (FileException $e){
+
+                }
+                $user->setProfileImage($newFilename);
+            }
             $em->persist($user);
             $em->flush();
 

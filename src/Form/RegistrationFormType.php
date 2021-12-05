@@ -12,6 +12,8 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -47,6 +49,11 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('firstname')
             ->add('lastname')
+            ->add('profil_image', FileType::class, [
+                'label' => 'photo de profil',
+                "mapped" => false,
+                'required' => false,
+            ])
             ->add('admin', CheckboxType::class, [
                 'mapped' => false,
                 'required' => false

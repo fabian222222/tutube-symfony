@@ -58,4 +58,11 @@ class VideoRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function discover($tutubeurs){
+        return $this->createQueryBuilder('video')
+            ->where('video.user IN (:users)')
+            ->setParameter('users', $tutubeurs)
+            ->getQuery()
+            ->getResult();
+    }
 }
